@@ -19,30 +19,30 @@ import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 
 /** Servlet responsible for fetching annotations. */
-@WebServlet("/annotation")
+@WebServlet("/annotations")
 public class GetAnnotation extends HttpServlet {
   @Override
   public void doGet(final HttpServletRequest request, final HttpServletResponse response)
       throws IOException {
-    String annotationLineId = Jsoup.clean(request.getParameter("lineId"), Whitelist.none());
+    long poemIdParam = Long.parseLong(Jsoup.clean(request.getParameter("poemId"), Whitelist.none()));
 
     final Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
     final Query<Entity> query = Query.newEntityQueryBuilder()
                                     .setKind("Annotation")
-                                    .setFilter(PropertyFilter.eq("lineId", annotationLineId))
+                                    .setFilter(PropertyFilter.eq("poemId", poemIdParam))
                                     .build();
     final QueryResults<Entity> results = datastore.run(query);
-
     List<Annotation> annotations = new ArrayList<>();
     while (results.hasNext()) {
       final Entity entity = results.next();
       final long annotationId = entity.getKey().getId();
+      final long poemId = entity.getLong("poemId");
       final String lineId = entity.getString("lineId");
       final String annotationText = entity.getString("annotationText");
       final long dateAdded = entity.getLong("dateAdded");
 
       final Annotation annotation =
-          new Annotation(annotationId, lineId, annotationText, dateAdded);
+          new Annotation(poemId, annotationId, lineId, annotationText, dateAdded);
       annotations.add(annotation);
     }
 
