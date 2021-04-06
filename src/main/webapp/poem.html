@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Poem</title>
+</head>
+
+<body>
+    <header class="navbar">
+        <section class="navbar-section">
+            <a href="/" class="btn btn-link">Home</a>
+            <a href="/recent.html" class="btn btn-link">Recent Poems</a>
+        </section>
+        <section class="navbar-center">
+            <h1 class="logo">Poetry Critic</h1>
+        </section>
+        <section class="navbar-section">
+            <a href="/new-poem.html" class="btn btn-link">New Poem</a>
+            <a href="#" class="btn btn-link">Search</a>
+        </section>
+    </header>
+    <div class="main-content">
+        <section class="poem-content"></section>
+        <section class="annotations-content"></section>
+        <section class="add-annotation hidden">
+            <form class="form-group" id="new-annotation-form">
+                <label class="form-label" for="annotationText">New Annotation</label>
+                <textarea class="form-input annotation-textarea" placeholder="This line is about..." rows="3"
+                    name="annotationText" id="annotationText" required="true"></textarea>
+                <div class="form-buttons">
+                    <button class="btn" id="annotation-discard-btn">Discard</button>
+                    <button class="btn btn-primary" id="annotation-submit-btn">Submit</button>
+                </div>
+            </form>
+        </section>
+    </div>
+    <script type="module" src="js/PoemData.js"></script>
+    <script src="js/AddNewAnnotation.js"></script>
+</body>
+
+</html>
