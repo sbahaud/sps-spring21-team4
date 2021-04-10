@@ -11,7 +11,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.sps.poem.PoemLine;
-import java.io.BufferedReader;
+import com.sps.utils.PoemUtils;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,29 +25,10 @@ import javax.servlet.http.HttpServletResponse;
 /** Servlet responsible for adding a new poem. */
 @WebServlet("/new-poem")
 public class AddPoem extends HttpServlet {
-  private String ParsePoemLines(final JsonArray lines) {
-    final List<PoemLine> poemLines = new ArrayList<>();
-    for (int i = 0; i < lines.size(); i++) {
-      final long lineId = Math.abs(new Random().nextLong());
-      poemLines.add(new PoemLine(lineId, lines.get(i).getAsString()));
-    }
-    final Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    return gson.toJson(poemLines);
-  }
-
   @Override
   public void doPost(final HttpServletRequest request, final HttpServletResponse response)
       throws IOException {
-    String requestData = "";
-    StringBuilder builder = new StringBuilder();
-    BufferedReader reader = request.getReader();
-    String line;
-    while ((line = reader.readLine()) != null) {
-      builder.append(line);
-    }
-    requestData = builder.toString();
-    Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    JsonObject json = gson.fromJson(requestData, JsonObject.class);
+    JsonObject json = new PoemUtils().convertRequestToJson(request);
     JsonArray poemLines = json.get("poemLines").getAsJsonArray();
 
     final Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
@@ -70,9 +51,25 @@ public class AddPoem extends HttpServlet {
                     .build())
             .set("dateAdded", new Date().getTime())
             .build();
-            
+
     datastore.put(poemEntity);
-    response.setContentType("application/json");
+    final Gson gson = new Gson();
+    response.setContentType("application/json;");
     response.getWriter().println(gson.toJson("{status: 'ok', code: 200}"));
+  }
+
+  /**
+   * Parse the poem lines
+   * @param lines - A list of the individual poem lines
+   * @return - The poem line and their ids
+   */
+  private String ParsePoemLines(final JsonArray lines) {
+    final List<PoemLine> poemLines = new ArrayList<>();
+    for (int i = 0; i < lines.size(); i++) {
+      final long lineId = Math.abs(new Random().nextLong());
+      poemLines.add(new PoemLine(lineId, lines.get(i).getAsString()));
+    }
+    final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    return gson.toJson(poemLines);
   }
 }
