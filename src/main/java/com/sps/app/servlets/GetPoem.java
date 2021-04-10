@@ -29,15 +29,13 @@ public class GetPoem extends HttpServlet {
       throws IOException {
     final Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
     final Query<Entity> query;
-    String idParam = request.getParameter("id");
-    if (idParam == null || idParam.isEmpty()) {
+    if (request.getParameter("id") == null || request.getParameter("id").isEmpty()) {
       query = Query.newEntityQueryBuilder()
                   .setKind("Poem")
                   .setOrderBy(OrderBy.desc("dateAdded"))
                   .build();
     } else {
-      idParam = Jsoup.clean(request.getParameter("id"), Whitelist.none());
-      long poemId = Long.parseLong(idParam);
+      long poemId = Long.parseLong(Jsoup.clean(request.getParameter("id"), Whitelist.none()));
       IncompleteKey poemKey = datastore.newKeyFactory().setKind("Poem").newKey();
       Key key = Key.newBuilder(poemKey.getProjectId(), poemKey.getKind(), poemId).build();
       query = Query.newEntityQueryBuilder()
