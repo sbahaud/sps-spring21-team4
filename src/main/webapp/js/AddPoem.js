@@ -1,21 +1,22 @@
 /**
  * Add a new poem
  */
-class AddNewPoem {
+class AddPoem {
   /**
    * Parse the poem text into lines
    * @param {string} text Full text of poem
    * @returns {Array} The individual lines of the poem
    * @todo Write a function that handles stanzas and empty lines
    */
-  ParsePoemLines(text) {
+  parsePoemLines(text) {
     return text.replace('\r', '').split('\n');
   }
+
   /**
    * Post poem data to server
    * @param {object} data The poem data
    */
-  PostPoemData(data) {
+  postPoemData(data) {
     try {
       fetch('/new-poem', {
         'method': 'POST',
@@ -33,21 +34,22 @@ class AddNewPoem {
       throw new Error(err);
     }
   }
-  Init() {
+
+  init() {
     let submitAnnotationButton = document.querySelector('#submit-btn');
     submitAnnotationButton.addEventListener('click', (e) => {
       let formData = new FormData(document.querySelector('#new-poem-form'));
       let fullText = formData.get('fullText');
-      let poemLines = this.ParsePoemLines(fullText);
+      let poemLines = this.parsePoemLines(fullText);
       let data = Object.fromEntries(formData.entries());
       data['poemLines'] = poemLines;
       data.source = data.source || '';
-      this.PostPoemData(data);
+      this.postPoemData(data);
       e.preventDefault();
     });
   }
 }
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', () => {
-  new AddNewPoem().Init();
+  new AddPoem().Init();
 });

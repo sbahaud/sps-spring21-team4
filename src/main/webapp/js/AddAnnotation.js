@@ -1,12 +1,12 @@
 /**
  * Add a new annotation to a line
  */
-class AddNewAnnotation {
+class AddAnnotation {
   /**
    * Post new annotation to server
    * @param {object} data The annotation data
    */
-  PostNewAnnotation(data) {
+  postAnnotation(data) {
     try {
       fetch('/new-annotation', {
         'method': 'POST',
@@ -17,7 +17,8 @@ class AddNewAnnotation {
       throw new Error(err);
     }
   }
-  Init() {
+
+  init() {
     let submitAnnotationButton = document.querySelector('#annotation-submit-btn');
     let discardAnnotationButton = document.querySelector('#annotation-discard-btn');
     console.log(submitAnnotationButton, discardAnnotationButton)
@@ -28,7 +29,7 @@ class AddNewAnnotation {
       let data = Object.fromEntries(formData.entries());
       data['poemId'] = dataset.poemid;
       data['lineId'] = dataset.lineid;
-      this.PostNewAnnotation(data);
+      this.postNewAnnotation(data);
     });
     discardAnnotationButton.addEventListener('click', (e) => {
       e.preventDefault();
@@ -38,5 +39,5 @@ class AddNewAnnotation {
 }
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', () => {
-  new AddNewAnnotation().Init();
+  new AddAnnotation().init();
 });
