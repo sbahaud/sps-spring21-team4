@@ -3,9 +3,12 @@ package com.sps.app.servlets;
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.Entity;
+import com.google.cloud.datastore.IncompleteKey;
+import com.google.cloud.datastore.Key;
 import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.QueryResults;
 import com.google.cloud.datastore.StructuredQuery.OrderBy;
+import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
 import com.google.gson.Gson;
 import com.sps.poem.Poem;
 import java.io.IOException;
@@ -15,18 +18,32 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
 
-/** Servlet responsible for fetching a poems. */
+/** Servlet responsible for fetching poems. */
 @WebServlet("/poem")
 public class GetPoem extends HttpServlet {
   @Override
   public void doGet(final HttpServletRequest request, final HttpServletResponse response)
       throws IOException {
     final Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
-    final Query<Entity> query =
-        Query.newEntityQueryBuilder().setKind("Poem").setOrderBy(OrderBy.desc("dateAdded")).build();
+    final Query<Entity> query;
+    if (request.getParameter("id") == null || request.getParameter("id").isEmpty()) {
+      query = Query.newEntityQueryBuilder()
+                  .setKind("Poem")
+                  .setOrderBy(OrderBy.desc("dateAdded"))
+                  .build();
+    } else {
+      long poemId = Long.parseLong(Jsoup.clean(request.getParameter("id"), Whitelist.none()));
+      IncompleteKey poemKey = datastore.newKeyFactory().setKind("Poem").newKey();
+      Key key = Key.newBuilder(poemKey.getProjectId(), poemKey.getKind(), poemId).build();
+      query = Query.newEntityQueryBuilder()
+                  .setKind("Poem")
+                  .setFilter(PropertyFilter.eq("__key__", key))
+                  .build();
+    }
     final QueryResults<Entity> results = datastore.run(query);
-
     final List<Poem> poems = new ArrayList<>();
     while (results.hasNext()) {
       final Entity entity = results.next();

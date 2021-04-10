@@ -6,30 +6,30 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-    <meta name="description" content="Collins Nji" />
+    <meta name="description" content="Poetry Critic" />
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
     <link rel="stylesheet" href="css/style.css">
-    <title>The Poem Critic</title>
+    <title>Poetry Critic</title>
 </head>
 
 <body>
-    <header class="main-header">
-        <h1>The Poem Critic</h1>
+    <header class="navbar">
+        <section class="navbar-section">
+            <a href="/" class="btn btn-link">Home</a>
+            <a href="/recent.html" class="btn btn-link">Recent Poems</a>
+        </section>
+        <section class="navbar-center">
+            <h1 class="logo">Poetry Critic</h1>
+        </section>
+        <section class="navbar-section">
+            <a href="/new-poem.html" class="btn btn-link">New Poem</a>
+            <a href="#" class="btn btn-link">Search</a>
+        </section>
     </header>
     <div class="main-content">
-        <section class="poem-content">
-            <div class="poem">
-                <h3 class="poem-title"></h3>
-                <p class="poem-author">by </p>
-                <span class="poem-text"></span>
-                <p class="poem-source">Source: </p>
-            </div>
-        </section>
-        <section class="annotation-content">
-            <div class="annotation"></div>
-        </section>
+        <section class="poem-content"></section>
     </div>
-    <script src="js/getPoems.js"></script>
-    <script src="js/getAnnotation.js"></script>
+    <script type="module" src="js/ListPoems.js"></script>
 </body>
 
 </html>

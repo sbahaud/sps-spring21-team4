@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload New Poem</title>
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <header class="navbar">
+        <section class="navbar-section">
+            <a href="/" class="btn btn-link">Home</a>
+            <a href="/recent.html" class="btn btn-link">Recent Poems</a>
+        </section>
+        <section class="navbar-center">
+            <h1 class="logo">Poetry Critic</h1>
+        </section>
+        <section class="navbar-section">
+            <a href="/new-poem.html" class="btn btn-link">New Poem</a>
+            <a href="#" class="btn btn-link">Search</a>
+        </section>
+    </header>
+    <div class="container">
+        <div class="columns col-6 col-mx-auto">
+            <form class="form-group column" id="new-poem-form">
+                <label class="form-label" for="poemTitle">Title</label>
+                <input class="form-input" type="text" name="poemTitle" placeholder="Poem title" required="true" />
+                <label class="form-label" for="poetName">Poet</label>
+                <input class="form-input" type="text" name="poetName" placeholder="Poet's name" required="true" />
+                <label class="form-label" for="fullText">Poem Full Text</label>
+                <textarea class="form-input" placeholder="Roses are red..." rows="8" name="fullText" id="fullText"
+                    required="true"></textarea>
+                <label class="form-label" for="source">Source</label>
+                <input class="form-input" name="source" type="text" placeholder="Original Source of poem"
+                    required="true" />
+                <button class="btn btn-primary" id="submit-btn" type"submit">Submit</button>
+            </form>
+        </div>
+    </div>
+    <script src="js/AddPoem.js"></script>
+</body>
+
+</html>
