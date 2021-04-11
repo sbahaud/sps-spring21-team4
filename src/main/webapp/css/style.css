@@ -2,10 +2,30 @@
 @import url('https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&display=swap');
 
 body {
+  background-color: #faf5e3;
   box-sizing: content-box;
   font-family: 'PT Serif', 'Times New Roman', Times, serif;
   margin: 0;
   padding: 0;
+}
+
+.logo {
+  color: #000;
+  font-family: 'freight-big-pro';
+  font-size: 5rem;
+  font-style: italic;
+}
+
+.btn.btn-link {
+  align-items: center;
+  color: #8d561f;
+  display: flex;
+  justify-content: center;
+}
+
+.btn.btn-link:hover {
+  color: #8d561f;
+  font-weight: bold;
 }
 
 .annotated {
@@ -23,7 +43,9 @@ body {
 
 .annotation-content,
 .poem-content {
+  grid-template-columns: repeat(2, 1fr);
   position: relative;
+  width: 50%;
 }
 
 .poem-line {
@@ -31,13 +53,22 @@ body {
   margin: 0;
 }
 
-.poem-title,
-.poet-name {
-  font-family: 'Pt Sans';
+.poem-title {
+  font-family: 'freight-big-pro';
+  font-size: 3.75rem;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  transition: all 0.2s;
+}
+
+.poem-title:hover {
+  color: #403f6f;
+  text-decoration: none;
 }
 
 .main-content {
   align-items: center;
+  background-color: #faf5e3;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
@@ -45,11 +76,12 @@ body {
 }
 
 .navbar {
-  background-color: #ededff;
   justify-content: space-evenly;
 }
 
 .navbar,
 .navbar-section {
   flex: none;
+  font-family: 'PT Sans';
+  justify-content: center !important;
 }
